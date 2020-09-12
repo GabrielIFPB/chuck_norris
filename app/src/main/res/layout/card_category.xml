@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:background="@color/colorAccent"
+	android:layout_height="50dp">
+
+	<TextView
+		android:id="@+id/title_category"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/app_name"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:textStyle="bold|italic"
+		android:textColor="@android:color/black"
+		android:layout_gravity="center"
+		/>
+
+</LinearLayout>
