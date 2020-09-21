@@ -1,10 +1,9 @@
 package com.inteligenciadigital.chucknorris;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,18 +12,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Menu;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.inteligenciadigital.chucknorris.models.CategoryItem;
+import com.inteligenciadigital.chucknorris.presentation.CategoryPresenter;
 import com.xwray.groupie.GroupAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 	private GroupAdapter adapter;
+	private CategoryPresenter presenter;
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,25 +51,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		recyclerView.setAdapter(this.adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-		this.populateItens();
+		this.presenter = new CategoryPresenter(this);
+		this.presenter.requestAll();
 	}
 
-	private void populateItens() {
-		List<CategoryItem> itens = new ArrayList<>();
-		itens.add(new CategoryItem("Cat1", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat2", 0xFF00FFaF));
-		itens.add(new CategoryItem("Cat3", 0xFF00FFbF));
-		itens.add(new CategoryItem("Cat4", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat5", 0xFF00eFFF));
-		itens.add(new CategoryItem("Cat6", 0xFF00FcFF));
-		itens.add(new CategoryItem("Cat7", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat8", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat9", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat10", 0xFF00FFFF));
-		itens.add(new CategoryItem("Cat11", 0xFF00FFFF));
+	public void showProgressBar() {
+		if (this.progressDialog == null) {
+			this.progressDialog = new ProgressDialog(this);
+			this.progressDialog.setMessage(getString(R.string.loading));
+			this.progressDialog.setIndeterminate(true);
+			this.progressDialog.setCancelable(false);
+		}
+		this.progressDialog.show();
+	}
 
-		this.adapter.addAll(itens);
+	public void hideProgressBar() {
+		if (this.progressDialog != null)
+			this.progressDialog.hide();
+	}
+
+	public void showCategories(List<CategoryItem> categoryItems) {
+		this.adapter.addAll(categoryItems);
 		this.adapter.notifyDataSetChanged();
+	}
+
+	public void showFailure(String message) {
+		this.toast(message);
 	}
 
 	@Override
@@ -94,5 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		drawerLayout.closeDrawer(GravityCompat.START);
 
 		return false;
+	}
+
+	private void toast(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 }
