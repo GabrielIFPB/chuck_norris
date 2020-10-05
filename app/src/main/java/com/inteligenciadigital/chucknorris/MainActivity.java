@@ -1,6 +1,7 @@
 package com.inteligenciadigital.chucknorris;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,6 +22,8 @@ import com.inteligenciadigital.chucknorris.datasource.CategoryRemoteDataSource;
 import com.inteligenciadigital.chucknorris.models.CategoryItem;
 import com.inteligenciadigital.chucknorris.presentation.CategoryPresenter;
 import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Item;
+import com.xwray.groupie.OnItemClickListener;
 
 import java.util.List;
 
@@ -49,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
 
 		this.adapter = new GroupAdapter();
+		this.adapter.setOnItemClickListener((item, view) -> {
+			Intent intent = new Intent(MainActivity.this, JokeActivity.class);
+
+			CategoryItem categoryItem = (CategoryItem) item;
+
+			intent.putExtra(JokeActivity.CATEGORY_KEY, categoryItem.getCategoryName());
+
+			startActivity(intent);
+		});
+
 		recyclerView.setAdapter(this.adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

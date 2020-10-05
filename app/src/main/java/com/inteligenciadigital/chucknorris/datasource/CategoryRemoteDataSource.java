@@ -41,7 +41,7 @@ public class CategoryRemoteDataSource {
 		protected List<String> doInBackground(Void... voids) {
 			List<String> response = new ArrayList<>();
 
-			HttpURLConnection urlConnection = null;
+			HttpURLConnection urlConnection;
 
 			try {
 				URL url = new URL(EndPoint.GET_CATEGORIES);
@@ -50,9 +50,8 @@ public class CategoryRemoteDataSource {
 				urlConnection.setConnectTimeout(2000);
 
 				int responseCode = urlConnection.getResponseCode();
-				if (responseCode > 400) {
+				if (responseCode > 400)
 					throw new IOException("Erro na comunicação do servidor");
-				}
 
 				InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
 				JsonReader jsonReader = new JsonReader(new InputStreamReader(inputStream));

@@ -27,9 +27,8 @@ public class CategoryPresenter implements CategoryRemoteDataSource.ListCategorie
 	@Override
 	public void onSuccess(List<String> response) {
 		List<CategoryItem> categoryItems = new ArrayList<>();
-		for (String val: response) {
+		for (String val: response)
 			categoryItems.add(new CategoryItem(val, Colors.randomColor()));
-		}
 		this.mainActivity.showCategories(categoryItems);
 	}
 
