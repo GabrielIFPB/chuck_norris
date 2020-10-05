@@ -3,10 +3,8 @@ package com.inteligenciadigital.chucknorris.datasource;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.JsonToken;
-import android.util.Log;
 
 import com.inteligenciadigital.chucknorris.models.Joke;
-import com.inteligenciadigital.chucknorris.presentation.JokePresenter;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -15,7 +13,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class JokeRemoteDataSource {
 
@@ -28,7 +29,23 @@ public class JokeRemoteDataSource {
 	}
 
 	public void findJokeBy(JokeCallback callback, String category) {
-		new JokeTask(callback, category).execute();
+		HTTPClient.retrofit().create(ChuckNorrisAPI.class)
+			.findRandomBy(category)
+				.enqueue(new Callback<Joke>() {
+					@Override
+					public void onResponse(Call<Joke> call, Response<Joke> response) {
+						if (response.isSuccessful())
+							callback.onSuccess(response.body());
+						callback.onComplete();
+					}
+
+					@Override
+					public void onFailure(Call<Joke> call, Throwable t) {
+						callback.onError(t.getMessage());
+						callback.onComplete();
+					}
+				});
+//		new JokeTask(callback, category).execute();
 	}
 
 	private static class JokeTask extends AsyncTask<Void, Void, Joke> {
