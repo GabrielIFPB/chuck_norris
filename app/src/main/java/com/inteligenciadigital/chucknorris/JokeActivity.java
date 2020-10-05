@@ -1,17 +1,23 @@
 package com.inteligenciadigital.chucknorris;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.inteligenciadigital.chucknorris.datasource.JokeRemoteDataSource;
+import com.inteligenciadigital.chucknorris.models.Joke;
+import com.inteligenciadigital.chucknorris.presentation.JokePresenter;
 
 public class JokeActivity extends AppCompatActivity {
 
 	static final String CATEGORY_KEY = "category_key";
+
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +32,41 @@ public class JokeActivity extends AppCompatActivity {
 			if (this.getSupportActionBar() != null) {
 				this.getSupportActionBar().setTitle(category);
 				this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+				JokeRemoteDataSource dataSource = new JokeRemoteDataSource();
+				JokePresenter presenter = new JokePresenter(this, dataSource);
+				presenter.findJokeBy(category);
+
+				FloatingActionButton fab = findViewById(R.id.fab);
+				fab.setOnClickListener(view -> {
+					presenter.findJokeBy(category);
+				});
 			}
-
-			Log.i("TESTE", category);
 		}
+	}
 
-		FloatingActionButton fab = findViewById(R.id.fab);
-		fab.setOnClickListener(view -> {
-			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-					.setAction("Action", null).show();
-		});
+	public void showJoke(Joke joke) {
+		TextView textJoke = findViewById(R.id.text_joke);
+		textJoke.setText(joke.getValue());
+	}
+
+	public void showFailure(String message) {
+		this.toast(message);
+	}
+
+	public void showProgressBar() {
+		if (this.progressDialog == null) {
+			this.progressDialog = new ProgressDialog(this);
+			this.progressDialog.setMessage(getString(R.string.loading));
+			this.progressDialog.setIndeterminate(true);
+			this.progressDialog.setCancelable(false);
+		}
+		this.progressDialog.show();
+	}
+
+	public void hideProgressBar() {
+		if (this.progressDialog != null)
+			this.progressDialog.hide();
 	}
 
 	@Override
@@ -47,5 +78,9 @@ public class JokeActivity extends AppCompatActivity {
 			default:
 				return true;
 		}
+	}
+
+	private void toast(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 }
