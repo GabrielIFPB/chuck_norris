@@ -70,27 +70,20 @@ public class JokeActivity extends AppCompatActivity {
 	}
 
 	public void hideProgressBar() {
-		if (this.progressDialog != null) {
+		if (this.progressDialog != null)
 			this.progressDialog.hide();
-			this.progressDialog.cancel();
-		}
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
+				this.progressDialog.cancel();
 				this.finish();
 				return true;
 			default:
 				return true;
 		}
-	}
-
-	@Override
-	public boolean onSupportNavigateUp() {
-//		this.verificaRequisicaoAtiva();
-		return false;
 	}
 
 	private void toast(String message) {
