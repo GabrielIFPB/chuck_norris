@@ -6,12 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inteligenciadigital.chucknorris.datasource.JokeRemoteDataSource;
 import com.inteligenciadigital.chucknorris.models.Joke;
 import com.inteligenciadigital.chucknorris.presentation.JokePresenter;
+import com.squareup.picasso.Picasso;
 
 public class JokeActivity extends AppCompatActivity {
 
@@ -46,8 +48,11 @@ public class JokeActivity extends AppCompatActivity {
 	}
 
 	public void showJoke(Joke joke) {
-		TextView textJoke = findViewById(R.id.text_joke);
+		TextView textJoke = this.findViewById(R.id.text_joke);
 		textJoke.setText(joke.getValue());
+
+		ImageView imageView = this.findViewById(R.id.img_icon);
+		Picasso.get().load(joke.getIconUrl()).into(imageView);
 	}
 
 	public void showFailure(String message) {
