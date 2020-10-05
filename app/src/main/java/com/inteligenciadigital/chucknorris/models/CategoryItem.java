@@ -28,4 +28,8 @@ public class CategoryItem extends Item<ViewHolder> {
 	public int getLayout() {
 		return R.layout.card_category;
 	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
 }
