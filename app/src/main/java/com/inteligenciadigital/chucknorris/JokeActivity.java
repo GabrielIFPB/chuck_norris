@@ -70,8 +70,10 @@ public class JokeActivity extends AppCompatActivity {
 	}
 
 	public void hideProgressBar() {
-		if (this.progressDialog != null)
+		if (this.progressDialog != null) {
 			this.progressDialog.hide();
+			this.progressDialog.cancel();
+		}
 	}
 
 	@Override
@@ -83,6 +85,12 @@ public class JokeActivity extends AppCompatActivity {
 			default:
 				return true;
 		}
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+//		this.verificaRequisicaoAtiva();
+		return false;
 	}
 
 	private void toast(String message) {

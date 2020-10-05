@@ -78,8 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	}
 
 	public void hideProgressBar() {
-		if (this.progressDialog != null)
+		if (this.progressDialog != null) {
 			this.progressDialog.hide();
+			this.progressDialog.cancel();
+		}
 	}
 
 	public void showCategories(List<CategoryItem> categoryItems) {
