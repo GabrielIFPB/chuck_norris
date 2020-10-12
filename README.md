@@ -13,3 +13,8 @@ Então vamos lá!
 chucknorris.io é uma API JSON gratuita para "fatos" de Chuck Norris 
 
 https://api.chucknorris.io/
+
+## Imagens do app
+
+<img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img01.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img02.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img03.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img04.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img05.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img06.jpg" alt="" width="200"/> <img src="https://github.com/GabrielIFPB/chuck_norris/blob/master/img07.jpg" alt="" width="200"/>
+
